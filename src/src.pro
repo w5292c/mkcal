@@ -40,8 +40,16 @@ INCLUDEPATH += . \
 
 #DEFINES += MEEGO UUID MKCAL_FOR_MEEGO TIMED_SUPPORT
 
-DEFINES += MEEGO UUID TIMED_SUPPORT
-PKGCONFIG += timed-qt5
+DEFINES += MEEGO UUID
+
+system(pkg-config --exists timed-qt5) {
+    message("Has timed-qt5")
+    PKGCONFIG += timed-qt5
+    DEFINES += TIMED_SUPPORT
+}
+!system(pkg-config --exists timed-qt5) {
+  message("No timed-qt5")
+}
 
 CONFIG += link_pkgconfig
 PKGCONFIG += uuid \
