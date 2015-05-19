@@ -672,9 +672,13 @@ class MKCAL_EXPORT SqliteStorage : public ExtendedStorage
 #define SELECT_COMPONENTS_BY_LAST_MODIFIED_AND_NOTEBOOK \
 "select * from Components where DateLastModified>=? and DateCreated<? and Notebook=? and DateDeleted=0"
 #define SELECT_COMPONENTS_BY_DELETED \
-"select * from Components where DateDeleted>=? and DateCreated<?"
+"select * from Components where DateDeleted<>0"
+#define SELECT_COMPONENTS_BY_DELETED_AND_LAST_MODIFIED \
+"select * from Components where DateDeleted<>0 and DateLastModified>=? and DateCreated<?"
 #define SELECT_COMPONENTS_BY_DELETED_AND_NOTEBOOK \
-"select * from Components where DateDeleted>=? and DateCreated<? and Notebook=?"
+"select * from Components where DateDeleted<>0 and Notebook=?"
+#define SELECT_COMPONENTS_BY_DELETED_AND_LAST_MODIFIED_AND_NOTEBOOK \
+"select * from Components where DateDeleted<>0 and DateLastModified>=? and DateCreated<? and Notebook=?"
 #define SELECT_COMPONENTS_BY_UID_AND_DELETED \
 "select DateDeleted from Components where UID=? and DateDeleted<>0"
 #define SELECT_ATTENDEE_AND_COUNT \

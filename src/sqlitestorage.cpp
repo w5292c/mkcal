@@ -2503,11 +2503,21 @@ bool SqliteStorage::deletedIncidences( Incidence::List *list, const KDateTime &a
     int qsize6 = 0;
 
     if ( !notebookUid.isNull() ) {
-      query1 = SELECT_COMPONENTS_BY_DELETED_AND_NOTEBOOK;
-      qsize1 = sizeof( SELECT_COMPONENTS_BY_DELETED_AND_NOTEBOOK );
+      if ( after.isValid() ) {
+        query1 = SELECT_COMPONENTS_BY_DELETED_AND_LAST_MODIFIED_AND_NOTEBOOK;
+        qsize1 = sizeof( SELECT_COMPONENTS_BY_DELETED_AND_LAST_MODIFIED_AND_NOTEBOOK );
+      } else {
+        query1 = SELECT_COMPONENTS_BY_DELETED_AND_NOTEBOOK;
+        qsize1 = sizeof( SELECT_COMPONENTS_BY_DELETED_AND_NOTEBOOK );
+      }
     } else {
-      query1 = SELECT_COMPONENTS_BY_DELETED;
-      qsize1 = sizeof( SELECT_COMPONENTS_BY_DELETED );
+      if ( after.isValid() ) {
+        query1 = SELECT_COMPONENTS_BY_DELETED_AND_LAST_MODIFIED;
+        qsize1 = sizeof( SELECT_COMPONENTS_BY_DELETED_AND_LAST_MODIFIED );
+      } else {
+        query1 = SELECT_COMPONENTS_BY_DELETED;
+        qsize1 = sizeof( SELECT_COMPONENTS_BY_DELETED );
+      }
     }
 
     return d->selectIncidences( list,
